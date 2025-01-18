@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Captcha Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: gray;
+        }
+        .captcha-container {
+            text-align: center;
+            margin: 20px;
+        }
+        .captcha {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #333;
+            background-color: #ddd;
+            display: inline-block;
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .input-box {
+            margin: 10px 0;
+        }
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            width: 200px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color:green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="captcha-container">
+        <div class="captcha" id="captcha">Loading...</div>
+    
+        <button onclick="generateCaptcha()">Reload</button>
+
+        <div class="input-box">
+            <input type="text" id="captchaInput" placeholder="Enter Captcha" />
+        </div>
+        <button onclick="verifyCaptcha()">Verify</button>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        let captchaText = "";
+
+        // Function to generate a random captcha
+        function generateCaptcha() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            captchaText = "";
+            for (let i = 0; i < 6; i++) {
+                captchaText += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById("captcha").innerText = captchaText;
+            document.getElementById("message").innerText = "";
+            document.getElementById("captchaInput").value = "";
+        }
+
+        // Function to verify the entered captcha
+        function verifyCaptcha() {
+            const userInput = document.getElementById("captchaInput").value;
+            const message = document.getElementById("message");
+            if (userInput === captchaText) {
+                message.innerText = "Captcha Verified!";
+                message.className = "message success";
+            } else {
+                message.innerText = "Captcha Incorrect! Please try again.";
+                message.className = "message error";
+            }
+        }
+
+        // Generate captcha on page load
+        window.onload = generateCaptcha;
+    </script>
+
+</body>
+</html>
